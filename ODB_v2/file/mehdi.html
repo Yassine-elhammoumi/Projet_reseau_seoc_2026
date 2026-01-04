@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Mehdi Lahlou – Profil</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+        }
+
+        h1, h2 {
+            color: #003366;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .contact a {
+            color: #003366;
+            text-decoration: none;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 20px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        .small-title {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>El Mehdi Lahlou</h1>
+    <p><strong>Étudiant ingénieur – Systèmes embarqués & Deep Learning</strong></p>
+
+    <div class="contact">
+        <p>
+            📞 <a href="tel:+33744479035">+33 7 44 47 90 35</a><br>
+            📧 <a href="mailto:el-mehdi.lahlou@grenoble-inp.org">el-mehdi.lahlou@grenoble-inp.org</a><br>
+            🔗 <a href="https://www.linkedin.com/in/el-mehdi-lahlou-new/" target="_blank">LinkedIn</a>
+        </p>
+    </div>
+
+    <!-- PROFIL -->
+    <div class="section">
+        <h2>Profil</h2>
+        <p>
+            Étudiant en ingénierie spécialisé en systèmes embarqués et microcontrôleurs,
+            expérimenté en FreeRTOS, programmation C et Python. 
+            Recherche un stage de fin d'études pour février 2026 dans le domaine du logiciel embarqué
+            ou du développement bas niveau.
+        </p>
+    </div>
+
+    <!-- FORMATION -->
+    <div class="section">
+        <h2>Formation</h2>
+        <p><strong>2024–2026</strong> – Diplôme d’ingénieur, Grenoble INP – Phelma, spécialité SEOC</p>
+        <p><strong>2022–2024</strong> – Classes préparatoires MP*, Lycée Fès (Maroc)</p>
+    </div>
+
+    <!-- COMPÉTENCES -->
+    <div class="section">
+        <h2>Compétences techniques</h2>
+
+        <p class="small-title">Langages</p>
+        <div class="skills-grid">
+            <div>C</div><div>Python</div>
+            <div>Java</div><div>VHDL</div>
+            <div>Shell/Bash</div>
+        </div>
+
+        <p class="small-title">Outils</p>
+        <div class="skills-grid">
+            <div>Git</div><div>VS Code</div>
+            <div>KiCad</div><div>LTspice</div>
+            <div>MATLAB/Simulink</div><div>ModelSim</div>
+            <div>MkDocs</div><div>CUDA</div>
+            <div>TensorBoard</div>
+        </div>
+
+        <p class="small-title">Domaines</p>
+        <ul>
+            <li>Deep Learning (CNN / Transformers)</li>
+            <li>Électronique numérique</li>
+            <li>FreeRTOS & systèmes temps réel</li>
+            <li>Programmation multitâche / multithread</li>
+            <li>Architecture SoC</li>
+            <li>Systèmes Linux & Windows</li>
+        </ul>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section">
+        <h2>Expérience professionnelle</h2>
+
+        <p><strong>Stage d’ingénieur – Développement logiciel</strong> — LIG, Grenoble (Juin–Sept 2025)</p>
+        <ul>
+            <li>Développement de logiciels modulaires en Python pour traitement vidéo et manipulation de datasets.</li>
+            <li>Optimisation de routines complexes et analyse de performance.</li>
+            <li>Documentation, versioning Git, publication PyPI, MkDocs.</li>
+        </ul>
+    </div>
+
+    <!-- PROJETS -->
+    <div class="section">
+        <h2>Projets académiques</h2>
+
+        <p><strong>Véhicule autonome sous FreeRTOS</strong> — Oct 2025 – Jan 2026</p>
+        <ul>
+            <li>Contrôle-commande : asservissement moteur & pilotage direction.</li>
+            <li>Multitâche sous FreeRTOS avec exécution temps réel.</li>
+            <li>Traitement embarqué d’images pour suivi de piste.</li>
+        </ul>
+
+        <p><strong>Filtre numérique FIR (32 coefficients) – VHDL</strong> — Fév–Mars 2025</p>
+        <ul>
+            <li>Implémentation VHDL et FSM.</li>
+            <li>Simulation ModelSim, synthèse Design Vision.</li>
+            <li>Placement-routage ASIC (Cadence Innovus).</li>
+        </ul>
+
+        <p><strong>Vérificateur orthographique en C</strong> — Oct 2024 – Déc 2024</p>
+        <ul>
+            <li>Implémentation de 4 structures : tableau dynamique, table de hachage, trie, suffix tree.</li>
+            <li>Analyse performance, optimisation mémoire, validation Valgrind.</li>
+        </ul>
+
+        <p><strong>Arbres couvrants minimaux – Optimisation</strong> — Avr–Mai 2024</p>
+        <ul>
+            <li>Algorithmes de Prim & Kruskal en C.</li>
+            <li>Test sur graphes 435k+ nœuds.</li>
+            <li>Analyse comparative.</li>
+        </ul>
+    </div>
+
+    <!-- LANGUES -->
+    <div class="section">
+        <h2>Langues</h2>
+        <ul>
+            <li>Français : bilingue</li>
+            <li>Anglais : intermédiaire</li>
+            <li>Arabe : langue maternelle</li>
+        </ul>
+    </div>
+
+</div>
+</body>
+</html>

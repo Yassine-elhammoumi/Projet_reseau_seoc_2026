@@ -1,0 +1,10 @@
+<map id="websocket.h" name="websocket.h">
+<area shape="rect" id="node1" title=" " alt="" coords="408,5,511,32"/>
+<area shape="rect" id="node2" href="$backend_8c.html" title=" " alt="" coords="5,80,92,107"/>
+<area shape="rect" id="node3" href="$loadBalencer_8c.html" title=" " alt="" coords="117,80,234,107"/>
+<area shape="rect" id="node4" href="$odb__backend_8c.html" title=" " alt="" coords="257,80,376,107"/>
+<area shape="rect" id="node5" href="$odb__frontend_8c.html" title=" " alt="" coords="400,80,519,107"/>
+<area shape="rect" id="node6" href="$odb__is_8c.html" title=" " alt="" coords="542,80,617,107"/>
+<area shape="rect" id="node7" href="$webServer_8c.html" title=" " alt="" coords="641,80,742,107"/>
+<area shape="rect" id="node8" href="$websocket_8c.html" title=" " alt="" coords="767,80,869,107"/>
+</map>

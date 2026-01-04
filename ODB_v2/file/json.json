@@ -1,0 +1,16 @@
+{
+	"Name": "CUSTOMER-ID",
+	"ItemQualifier": "Input Record Field",
+	"DataType": "PIC 9(5)",
+	"DataAttribute": "USAGE DISPLAY",
+	"SourceInputValue": "12345",
+	"SourceInputHexValue": "F1F2F3F4F5",
+	"DestInputValue": "12345",
+	"DestInputHexValue": "F1F2F3F4F5",
+	"SourceOutputValue": "12345",
+	"SourceOutputHexValue": "F1F2F3F4F5",
+	"DestOutputValue": "12345",
+	"DestOutputHexValue": "F1F2F3F4F5",
+	"Skipped": false,
+	"TestPassed": true
+}

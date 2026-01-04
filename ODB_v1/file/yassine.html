@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profil de Yassine — Ingénieur</title>
+  <meta name="description" content="Page de présentation d'un ingénieur nommé Yassine, avec des graphiques illustrant ses compétences." />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      background: #f9fafb;
+      color: #1f2937;
+    }
+
+    header {
+      background: linear-gradient(90deg,#06b6d4,#3b82f6);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    header h1 { margin: 0; font-size: 2.5rem; }
+    header p { font-size: 1.1rem; opacity: 0.9; }
+
+    main { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+
+    section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+
+    h2 { color: #2563eb; }
+
+    canvas { display: block; margin: 1rem auto; max-width: 600px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Yassine — Ingénieur en Technologies Avancées</h1>
+    <p>Passionné par l’innovation, la recherche et le développement en systèmes embarqués et intelligence artificielle.</p>
+  </header>
+
+  <main>
+    <section id="presentation">
+      <h2>À propos de Yassine</h2>
+      <p>Yassine est un ingénieur créatif et rigoureux, spécialisé dans la conception de systèmes intelligents et l’optimisation logicielle. Il aime résoudre des problèmes complexes en combinant algorithmes, électronique et vision par ordinateur. Doté d’un fort esprit d’équipe, il participe activement à la mise en œuvre de projets collaboratifs dans le domaine de la recherche appliquée.</p>
+      <p>En dehors du travail, Yassine s’intéresse à la robotique, à la photographie scientifique et aux technologies open source.</p>
+    </section>
+
+    <section id="competences">
+      <h2>Compétences Techniques</h2>
+      <canvas id="skillsChart" width="400" height="250"></canvas>
+    </section>
+
+    <section id="projets">
+      <h2>Projets Clés</h2>
+      <ul>
+        <li><strong>Drone Vision :</strong> développement d’un système de détection d’objets embarqué en temps réel.</li>
+        <li><strong>Smart Factory :</strong> création d’un algorithme de maintenance prédictive basé sur l’IA.</li>
+        <li><strong>COCOR Toolkit :</strong> génération de jeux de données pour la recherche sur l’invariance à la rotation.</li>
+      </ul>
+      <canvas id="projectsChart" width="400" height="250"></canvas>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>📧 yassine.ing@gmail.com</p>
+      <p>🔗 <a href="#" style="color:#06b6d4;">LinkedIn</a> | <a href="#" style="color:#06b6d4;">GitHub</a></p>
+    </section>
+  </main>
+
+  <script>
+    const ctxSkills = document.getElementById('skillsChart').getContext('2d');
+    new Chart(ctxSkills, {
+      type: 'radar',
+      data: {
+        labels: ['IA', 'Vision', 'Embarqué', 'Python', 'C/C++', 'Optimisation'],
+        datasets: [{
+          label: 'Niveau de compétence',
+          data: [90, 85, 80, 95, 88, 84],
+          backgroundColor: 'rgba(59,130,246,0.2)',
+          borderColor: '#3b82f6',
+          borderWidth: 2,
+          pointBackgroundColor: '#1d4ed8'
+        }]
+      },
+      options: { scales: { r: { beginAtZero: true, max: 100 } } }
+    });
+
+    const ctxProjects = document.getElementById('projectsChart').getContext('2d');
+    new Chart(ctxProjects, {
+      type: 'bar',
+      data: {
+        labels: ['Drone Vision', 'Smart Factory', 'COCOR Toolkit'],
+        datasets: [{
+          label: 'Impact (échelle 0-10)',
+          data: [9, 8, 10],
+          backgroundColor: ['#06b6d4', '#3b82f6', '#6366f1']
+        }]
+      },
+      options: { scales: { y: { beginAtZero: true, max: 10 } } }
+    });
+  </script>
+</body>
+</html>

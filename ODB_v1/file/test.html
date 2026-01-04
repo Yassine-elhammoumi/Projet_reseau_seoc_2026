@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Template Démo — Grande Page HTML</title>
+  <meta name="description" content="Exemple long et complet de page HTML autonome : layout, composants, formulaire, accessibilité, JS interactif." />
+  <meta name="author" content="Généré par ChatGPT" />
+  <!-- Styles principaux — très détaillés pour la démo -->
+  <style>
+    /* Reset simple */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color: #111; background: linear-gradient(180deg,#f7fafc,#ffffff); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    a { color: #0b5cff; text-decoration: none; }
+    a:focus { outline: 3px solid #a9c4ff; outline-offset: 3px; }
+    img { max-width:100%; height:auto; display:block; }
+
+    /* Layout global */
+    .container { width: min(1200px, 96%); margin: 0 auto; padding: 2rem 0; }
+    header { background: linear-gradient(90deg,#0b5cff22,#06b6d422); position: sticky; top:0; z-index: 60; backdrop-filter: blur(4px); border-bottom: 1px solid rgba(11,92,255,0.06); }
+    .nav { display: flex; align-items: center; gap: 1rem; padding: 0.7rem 0; }
+    .brand { display:flex; align-items:center; gap:0.75rem; }
+    .brand .logo { width:42px; height:42px; display:inline-grid; place-items:center; border-radius:10px; background:linear-gradient(135deg,#0b5cff,#06b6d4); color:white; font-weight:700; }
+    nav ul { display:flex; gap: 0.5rem 1.25rem; list-style:none; margin:0; padding:0; }
+    nav li { font-weight:600; font-size:0.95rem; }
+
+    /* Hero */
+    .hero { display:grid; grid-template-columns: 1fr 420px; gap:2rem; align-items:center; padding:3rem 0; }
+    .hero .headline { font-size: clamp(1.5rem, 3.6vw, 2.6rem); line-height:1.05; margin:0 0 0.6rem 0; }
+    .sub { color:#334155; margin-bottom:1rem; }
+    .cta-row { display:flex; gap:0.75rem; flex-wrap:wrap; }
+    .btn { padding:0.65rem 1rem; border-radius:10px; border:0; cursor:pointer; font-weight:700; }
+    .btn-primary { background:#0b5cff; color:white; box-shadow:0 6px 18px rgba(11,92,255,0.12); }
+    .btn-ghost { background:transparent; border:1px solid rgba(11,92,255,0.12); color:#0b5cff; }
+
+    /* Cards & Grid */
+    .grid-3 { display:grid; grid-template-columns: repeat(3,1fr); gap:1rem; margin:2rem 0; }
+    .card { background:white; border-radius:12px; padding:1.1rem; box-shadow: 0 6px 18px rgba(12,20,40,0.06); border:1px solid rgba(12,20,40,0.03); }
+    .card h3 { margin:0 0 0.6rem 0; font-size:1.05rem; }
+    .muted { color:#64748b; font-size:0.95rem; }
+
+    /* Features / two-column */
+    .two-col { display:grid; grid-template-columns: 1fr 1fr; gap:1.25rem; margin:2rem 0; align-items:start; }
+    .feature-list { list-style: none; padding:0; margin:0; display:grid; gap:0.75rem; }
+    .feature-item { display:flex; gap:0.8rem; align-items:flex-start; }
+
+    /* Table */
+    .table-wrap { overflow:auto; padding:0.5rem; border-radius:10px; background:linear-gradient(180deg,#ffffff,#fbfdff); }
+    table { width:100%; border-collapse:collapse; min-width:700px; }
+    th, td { text-align:left; padding:0.8rem 0.6rem; border-bottom:1px solid rgba(15,23,42,0.05); }
+    th { font-weight:700; background:linear-gradient(180deg,#fbfbff,#ffffff); position:sticky; top:0; }
+
+    /* Tabs */
+    .tabs { display:flex; gap:0.5rem; border-radius:10px; background:#f1f5f9; padding:0.3rem; }
+    .tab { padding:0.5rem 0.9rem; border-radius:8px; cursor:pointer; font-weight:700; }
+    .tab[aria-selected="true"] { background:white; box-shadow:0 6px 18px rgba(2,6,23,0.06); }
+
+    /* Modal */
+    .modal-backdrop { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(2,6,23,0.45); z-index:1000; }
+    .modal { width:min(800px,94%); background:white; border-radius:12px; padding:1.25rem; box-shadow:0 14px 50px rgba(2,6,23,0.35); }
+
+    /* Form */
+    form { display:grid; gap:0.75rem; }
+    label { font-weight:700; font-size:0.95rem; }
+    input[type="text"], input[type="email"], textarea, select { padding:0.6rem 0.75rem; border-radius:10px; border:1px solid rgba(2,6,23,0.08); font-size:0.95rem; }
+    textarea { min-height:120px; resize:vertical; }
+    .form-row { display:grid; grid-template-columns: 1fr 1fr; gap:0.6rem; }
+
+    /* Footer */
+    footer { padding:2rem 0; margin-top:3rem; border-top:1px solid rgba(2,6,23,0.04); color:#475569; }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; text-align:center; }
+      .hero .aside { order: -1; }
+      .grid-3 { grid-template-columns: repeat(2,1fr); }
+      .two-col { grid-template-columns:1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* Utilities */
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background:#11182711; padding:0.08rem 0.35rem; border-radius:6px; font-weight:700; font-size:0.85rem; }
+
+  </style>
+</head>
+<body>
+  <!-- En-tête / navigation -->
+  <header role="banner" aria-label="En-tête du site">
+    <div class="container nav" role="navigation" aria-label="Navigation principale">
+      <div class="brand" aria-hidden="false">
+        <div class="logo" aria-hidden="true">DM</div>
+        <div>
+          <div style="font-weight:800">Demo Master</div>
+          <div style="font-size:0.8rem; color:#64748b; margin-top:0.1rem;">Template long — autonome</div>
+        </div>
+      </div>
+      <nav style="margin-left:auto;">
+        <ul>
+          <li><a href="#features">Fonctions</a></li>
+          <li><a href="#examples">Exemples</a></li>
+          <li><a href="#pricing">Tarifs</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenu principal -->
+  <main id="main" class="container" role="main" tabindex="-1">
+    <!-- Hero / bannière -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <h1 id="hero-title" class="headline">Grande page HTML autonome — modèle complet et commenté</h1>
+        <p class="sub">Exemple long de page HTML incluant composants, tableau, formulaire, modal, onglets et scripts d'interaction. Utilise des bonnes pratiques d'accessibilité.</p>
+
+        <div class="cta-row" role="region" aria-label="Actions principales">
+          <button class="btn btn-primary" id="openDemo" type="button">Ouvrir la démo</button>
+          <a class="btn btn-ghost" href="#contact">Nous contacter</a>
+        </div>
+
+        <p style="margin-top:1rem;" class="muted">Accessible · Responsive · Sans dépendances externes</p>
+
+        <!-- Mini résumé / points -->
+        <ul style="margin-top:1rem; color:#334155;">
+          <li><strong>HTML5 sémantique</strong> — sections, roles ARIA, focus management.</li>
+          <li><strong>CSS moderne</strong> — responsive, grid, utilitaires.</li>
+          <li><strong>JS minimal</strong> — onglets, modal, validation formulaire.</li>
+        </ul>
+      </div>
+
+      <!-- Aside / encart -->
+      <aside class="aside card" aria-labelledby="aside-title">
+        <h3 id="aside-title">Résumé rapide</h3>
+        <p class="muted">Cette page sert à démontrer différents composants réutilisables et patterns d'interface. Tu peux copier-coller et adapter chaque section.</p>
+
+        <dl style="margin-top:0.8rem;">
+          <dt style="font-weight:800;">Taille</dt>
+          <dd class="muted">~500 lignes (exemple détaillé)</dd>
+          <dt style="font-weight:800; margin-top:0.5rem;">Licence</dt>
+          <dd class="muted">Libre d'usage pour démonstration</dd>
+        </dl>
+
+        <div style="margin-top:1rem;">
+          <button class="btn btn-primary" id="openModal">Voir détails</button>
+        </div>
+      </aside>
+    </section>
+
+    <!-- 3 cartes d'aperçu -->
+    <section aria-labelledby="cards-title" style="margin-top:1.5rem;">
+      <h2 id="cards-title">Points forts</h2>
+      <div class="grid-3" role="list">
+        <article class="card" role="listitem" aria-labelledby="c1">
+          <h3 id="c1">Accessibilité</h3>
+          <p class="muted">Focus visible, textes alternatifs, attributs ARIA, structure sémantique.</p>
+        </article>
+        <article class="card" role="listitem" aria-labelledby="c2">
+          <h3 id="c2">Composants</h3>
+          <p class="muted">Onglets, modal, tableau, formulaire, cartes et plus.</p>
+        </article>
+        <article class="card" role="listitem" aria-labelledby="c3">
+          <h3 id="c3">Sans dépendances</h3>
+          <p class="muted">Aucun framework externe requis — pure HTML/CSS/JS.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section deux colonnes — features + tableau -->
+    <section id="features" aria-labelledby="features-title" style="margin-top:1.5rem;">
+      <h2 id="features-title">Détails et exemples</h2>
+      <div class="two-col">
+        <div>
+          <h3>Liste de fonctionnalités</h3>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <div style="width:36px;height:36px;border-radius:8px;background:#e6f0ff;display:grid;place-items:center;font-weight:800;">A</div>
+              <div><strong>HTML sémantique</strong><div class="muted">Utilisation correcte des balises section, main, nav, header, footer et article.</div></div>
+            </li>
+            <li class="feature-item">
+              <div style="width:36px;height:36px;border-radius:8px;background:#fff7ed;display:grid;place-items:center;font-weight:800;">B</div>
+              <div><strong>Contrôles accessibles</strong><div class="muted">Onglets clairs, boutons focusables, labels associés aux champs de formulaire.</div></div>
+            </li>
+            <li class="feature-item">
+              <div style="width:36px;height:36px;border-radius:8px;background:#ecfdf5;display:grid;place-items:center;font-weight:800;">C</div>
+              <div><strong>UX responsive</strong><div class="muted">Design adaptable en grille CSS et media queries simples.</div></div>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Tableau — exemple de données</h3>
+          <div class="table-wrap" role="region" aria-label="Exemple de tableau de données">
+            <table aria-describedby="table-desc">
+              <caption id="table-desc" class="sr-only">Tableau d'exemple listant des modules et leur statut</caption>
+              <thead>
+                <tr>
+                  <th>Module</th>
+                  <th>Version</th>
+                  <th>Statut</th>
+                  <th>Dernière mise à jour</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Core</td><td>1.4.2</td><td>Stable</td><td>2025-04-12</td>
+                </tr>
+                <tr>
+                  <td>UI Components</td><td>0.9.8</td><td>Beta</td><td>2025-06-01</td>
+                </tr>
+                <tr>
+                  <td>Auth</td><td>2.1.0</td><td>Stable</td><td>2025-07-18</td>
+                </tr>
+                <tr>
+                  <td>Analytics</td><td>0.3.6</td><td>Experimental</td><td>2025-08-03</td>
+                </tr>
+                <tr>
+                  <td>Docs</td><td>1.0.0</td><td>Stable</td><td>2025-02-22</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Onglets (tabs) -->
+    <section id="examples" aria-labelledby="examples-title" style="margin-top:1.5rem;">
+      <h2 id="examples-title">Onglets interactifs</h2>
+      <div>
+        <div class="tabs" role="tablist" aria-label="Exemples d'onglets">
+          <button class="tab" role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1">Aperçu</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2">Configurations</button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3">Logs</button>
+        </div>
+
+        <div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" style="margin-top:1rem;">
+          <p class="muted">Panneau d'aperçu : informations générales et résumé des actions récentes.</p>
+          <ul>
+            <li>Statistiques d'utilisation</li>
+            <li>Derniers événements</li>
+            <li>Recommandations</li>
+          </ul>
+        </div>
+        <div id="panel-2" role="tabpanel" aria-labelledby="tab-2" tabindex="0" hidden style="margin-top:1rem;">
+          <p class="muted">Panneau de configuration : options modifiables et paramètres système.</p>
+          <p class="muted">Exemples : activer/désactiver le mode debug, niveaux de log, etc.</p>
+        </div>
+        <div id="panel-3" role="tabpanel" aria-labelledby="tab-3" tabindex="0" hidden style="margin-top:1rem;">
+          <p class="muted">Panneau de logs : flux d'événements et historique — affichage paginé possible.</p>
+          <pre style="background:#0b122522; color:#0b5cff; padding:0.8rem; border-radius:8px; overflow:auto; max-height:220px;">
+2025-10-15T14:37: Demo started
+2025-10-15T14:38: Config saved
+2025-10-15T14:39: Modal opened by user
+          </pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Tarifs -->
+    <section id="pricing" aria-labelledby="pricing-title" style="margin-top:1.5rem;">
+      <h2 id="pricing-title">Exemples de tarifs</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Gratuit</h3>
+          <p class="muted">Usage personnel · fonctionnalités de base</p>
+          <ul class="muted">
+            <li>Jusqu'à 1 projet</li>
+            <li>Support communauté</li>
+            <li>Mises à jour basiques</li>
+          </ul>
+          <div style="margin-top:0.8rem;"><button class="btn btn-ghost">Commencer</button></div>
+        </div>
+        <div class="card" style="border:2px solid #0b5cff11;">
+          <h3>Pro</h3>
+          <p class="muted">Usage pro ·  équipe</p>
+          <ul class="muted">
+            <li>Projets illimités</li>
+            <li>Support prioritaire</li>
+            <li>Accès aux APIs</li>
+          </ul>
+          <div style="margin-top:0.8rem;"><button class="btn btn-primary">Souscrire</button></div>
+        </div>
+        <div class="card">
+          <h3>Entreprise</h3>
+          <p class="muted">Solutions sur mesure · intégration</p>
+          <ul class="muted">
+            <li>SLAs</li>
+            <li>Onboarding dédié</li>
+            <li>Audit sécurité</li>
+          </ul>
+          <div style="margin-top:0.8rem;"><button class="btn btn-ghost">Contact commercial</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact / formulaire -->
+    <section id="contact" aria-labelledby="contact-title" style="margin-top:1.5rem;">
+      <h2 id="contact-title">Contact & Formulaire</h2>
+      <div class="card" style="display:flex; gap:1rem; align-items:flex-start; flex-wrap:wrap;">
+        <form id="contactForm" aria-describedby="contact-desc" style="flex:1; min-width:280px; max-width:760px;">
+          <p id="contact-desc" class="muted">Remplis le formulaire pour recevoir une réponse. Les champs marqués d'un astérisque sont obligatoires.</p>
+
+          <div>
+            <label for="name">Nom *</label>
+            <input id="name" name="name" type="text" required aria-required="true" placeholder="Ex : Jean Dupont" />
+          </div>
+
+          <div>
+            <label for="email">Email *</label>
+            <input id="email" name="email" type="email" required aria-required="true" placeholder="exemple@domaine.fr" />
+          </div>
+
+          <div>
+            <label for="subject">Sujet</label>
+            <select id="subject" name="subject">
+              <option value="">— sélectionner —</option>
+              <option value="question">Question</option>
+              <option value="bug">Signaler un bug</option>
+              <option value="sales">Demande commerciale</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" required aria-required="true" placeholder="Détaille ton message ici..."></textarea>
+          </div>
+
+          <div style="display:flex; gap:0.6rem; align-items:center; margin-top:0.2rem;">
+            <input id="consent" name="consent" type="checkbox" /> <label for="consent" style="font-weight:600;">J'accepte le traitement des données</label>
+          </div>
+
+          <div style="margin-top:0.5rem;">
+            <button class="btn btn-primary" type="submit">Envoyer</button>
+            <button class="btn btn-ghost" type="button" id="resetForm">Réinitialiser</button>
+          </div>
+
+          <div id="formStatus" role="status" aria-live="polite" style="margin-top:0.6rem;color:#065f46;"></div>
+        </form>
+
+        <div style="flex:0 0 260px;">
+          <h4>Infos</h4>
+          <p class="muted">Adresse : 123 Rue Exemple, 75000 Paris</p>
+          <p class="muted">Téléphone : <span class="kbd">+33 1 23 45 67 89</span></p>
+          <p class="muted">Horaires : Lun–Ven 09:00–17:00</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer role="contentinfo" aria-label="Pied de page" style="margin-top:2rem;">
+      <div class="container" style="display:flex; gap:1rem; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+        <div>
+          <strong>Demo Master</strong>
+          <div class="muted">Prototype &amp; template — 2025</div>
+        </div>
+        <nav aria-label="Liens de bas de page">
+          <ul style="display:flex; gap:1rem; list-style:none; margin:0; padding:0;">
+            <li><a href="#features">Fonctions</a></li>
+            <li><a href="#pricing">Tarifs</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Modal (détails) -->
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
+    <div class="modal" role="document">
+      <h3 id="modalTitle">Détails de la démo</h3>
+      <p class="muted">Informations complémentaires et exemples d'utilisation. Ce modal est accessible : focus trap et fermeture par Échap.</p>
+      <ul class="muted">
+        <li>Navigation accessible</li>
+        <li>Composants modulaires</li>
+        <li>Tests et validation intégrés</li>
+      </ul>
+      <div style="display:flex; gap:0.6rem; margin-top:1rem;">
+        <button class="btn btn-primary" id="modalClose">Fermer</button>
+        <button class="btn btn-ghost" id="modalSecondary">Action secondaire</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script d'interaction : onglets, modal, formulaire -->
+  <script>
+    /*****************************************************************
+     * Petit script JS autonome :
+     * - gestion des onglets (accessible)
+     * - modal accessible (focus trap, fermeture avec ESC)
+     * - validation simple du formulaire
+     *****************************************************************/
+
+    (function(){
+      /* ========== Onglets accessibles ========== */
+      const tabs = Array.from(document.querySelectorAll('.tab'));
+      const panels = {
+        'tab-1': document.getElementById('panel-1'),
+        'tab-2': document.getElementById('panel-2'),
+        'tab-3': document.getElementById('panel-3')
+      };
+      tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          tabs.forEach(t => t.setAttribute('aria-selected','false'));
+          tab.setAttribute('aria-selected','true');
+          // masquer/afficher panels
+          Object.values(panels).forEach(p => p.hidden = true);
+          const panel = panels[tab.id];
+          if (panel) {
+            panel.hidden = false;
+            panel.focus(); // focus pour accessibilité
+          }
+        });
+        // gestion clavier : déplacer focus avec flèches gauche/droite
+        tab.addEventListener('keydown', (ev) => {
+          if (ev.key === 'ArrowRight' || ev.key === 'ArrowLeft') {
+            const idx = tabs.indexOf(tab);
+            const dir = ev.key === 'ArrowRight' ? 1 : -1;
+            let next = (idx + dir + tabs.length) % tabs.length;
+            tabs[next].focus();
+            tabs[next].click();
+          }
+        });
+      });
+
+      /* ========== Modal simple et accessible ========== */
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      const openModalBtn = document.getElementById('openModal');
+      const closeModalBtn = document.getElementById('modalClose');
+      const modalSecondary = document.getElementById('modalSecondary');
+      let lastFocusedElement = null;
+
+      function openModal() {
+        lastFocusedElement = document.activeElement;
+        modalBackdrop.style.display = 'flex';
+        modalBackdrop.setAttribute('aria-hidden','false');
+        // focus sur le premier bouton dans la modal
+        closeModalBtn.focus();
+        document.addEventListener('keydown', handleKeyDownModal);
+      }
+      function closeModal() {
+        modalBackdrop.style.display = 'none';
+        modalBackdrop.setAttribute('aria-hidden','true');
+        document.removeEventListener('keydown', handleKeyDownModal);
+        if (lastFocusedElement) lastFocusedElement.focus();
+      }
+      function handleKeyDownModal(e) {
+        if (e.key === 'Escape') closeModal();
+        // trap focus (simplifié)
+        const focusables = modalBackdrop.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (e.key === 'Tab') {
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+
+      openModalBtn.addEventListener('click', openModal);
+      closeModalBtn.addEventListener('click', closeModal);
+      modalSecondary.addEventListener('click', function(){ alert('Action secondaire exécutée'); });
+
+      // bouton d'ouverture large depuis hero
+      document.getElementById('openDemo').addEventListener('click', function(){
+        // scroll to examples and open modal
+        document.getElementById('examples').scrollIntoView({behavior:'smooth'});
+        openModal();
+      });
+
+      /* ========== Formulaire : validation client + faux envoi ========== */
+      const form = document.getElementById('contactForm');
+      const status = document.getElementById('formStatus');
+      const resetBtn = document.getElementById('resetForm');
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        status.textContent = '';
+        // contrôles basiques
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        const message = form.message.value.trim();
+        const consent = form.consent.checked;
+
+        if (!name || !email || !message) {
+          status.style.color = '#b91c1c';
+          status.textContent = 'Veuillez remplir tous les champs obligatoires.';
+          return;
+        }
+        if (!consent) {
+          status.style.color = '#b91c1c';
+          status.textContent = 'Vous devez accepter le traitement des données.';
+          return;
+        }
+        // validation email simple (regex basique)
+        const emailOK = /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(email);
+        if (!emailOK) {
+          status.style.color = '#b91c1c';
+          status.textContent = 'Adresse email invalide.';
+          return;
+        }
+
+        // Simuler envoi — ici on ne fait pas de requête réseau
+        status.style.color = '#065f46';
+        status.textContent = 'Envoi en cours...';
+        // simulé asynchrone (setTimeout)
+        setTimeout(() => {
+          status.style.color = '#065f46';
+          status.textContent = 'Message envoyé — merci ! (simulation)';
+          form.reset();
+        }, 900);
+      });
+
+      resetBtn.addEventListener('click', function(){
+        form.reset();
+        status.textContent = '';
+      });
+
+      /* ========== Modal backdrop click to close (clic hors modal) ========== */
+      modalBackdrop.addEventListener('click', function(e){
+        if (e.target === modalBackdrop) closeModal();
+      });
+
+      /* ========== Petite amélioration : conserve le focus sur le main sur navigation via hash ====== */
+      window.addEventListener('hashchange', function(){
+        // focus sur l'élément ciblé si présent
+        const id = location.hash.slice(1);
+        if (!id) return;
+        const el = document.getElementById(id);
+        if (el) {
+          el.setAttribute('tabindex','-1');
+          el.focus();
+        }
+      });
+
+      /* ========== Accessibility hint for keyboard users: show/hide focus styles ========== */
+      (function manageFocusRing(){
+        function handleFirstTab(e) {
+          if (e.key === 'Tab') {
+            document.documentElement.classList.add('show-focus');
+            window.removeEventListener('keydown', handleFirstTab);
+          }
+        }
+        window.addEventListener('keydown', handleFirstTab);
+      })();
+
+    })();
+  </script>
+</body>
+</html>

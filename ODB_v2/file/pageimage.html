@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Galerie d’images – Description & Données</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 0;
+            background-color: #eef3f7;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page {
+            width: 90%;
+            max-width: 950px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        .photo-container {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+            margin-bottom: 40px;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #444;
+            text-align: justify;
+        }
+
+        .annotation {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 12px 15px;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        .annotation ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .annotation li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <h1>Présentation et description des images</h1>
+
+    <!-- Plage -->
+    <div class="photo-container">
+        <h2>Image naturelle – Plage</h2>
+        <img src="plage.png" alt="Photo de plage">
+        <div class="description">
+            Image représentant une plage ensoleillée, avec une étendue de sable clair
+            bordée par la mer. L’horizon dégagé et les vagues calmes créent une atmosphère
+            paisible, typique d’une scène estivale en bord de mer.
+        </div>
+    </div>
+
+    <!-- COCO / COCOR -->
+    <div class="photo-container">
+        <h2>Image annotée – Dataset COCO / COCOR</h2>
+        <img src="imageData.png" alt="Image annotée COCO">
+        <div class="description">
+            Image issue d’un dataset de vision par ordinateur de type COCO / COCOR,
+            représentant une scène du quotidien avec plusieurs objets annotés pour la
+            détection et l’analyse visuelle.
+        </div>
+        <div class="annotation">
+            <strong>Objets annotés :</strong>
+            <ul>
+                <li><strong>person</strong> : individu présent dans la scène</li>
+                <li><strong>car</strong> : véhicule visible en arrière-plan</li>
+                <li><strong>bicycle</strong> : vélo situé à proximité</li>
+                <li><strong>traffic light</strong> : feu de signalisation</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Poker -->
+    <div class="photo-container">
+        <h2>Image de poker</h2>
+        <img src="png.png" alt="Image de poker">
+        <div class="description">
+            Image illustrant une scène de poker, avec des cartes et des jetons disposés
+            sur une table de jeu. Elle évoque un contexte de jeu, de stratégie et de hasard.
+        </div>
+    </div>
+
+    <!-- Âne -->
+    <div class="photo-container">
+        <h2>Image animale – Âne</h2>
+        <img src="simple.png" alt="Image d’un âne">
+        <div class="description">
+            Image représentant un âne, animal domestique reconnaissable par sa silhouette,
+            ses longues oreilles et son pelage. La scène est simple et naturelle.
+        </div>
+    </div>
+
+    <!-- Laboratoire -->
+    <div class="photo-container">
+        <h2>Image technique – Laboratoire</h2>
+        <img src="mpsi.png" alt="Image de laboratoire">
+        <div class="description">
+            Image montrant un laboratoire, avec du matériel scientifique et technique.
+            Elle illustre un environnement de travail dédié à l’expérimentation,
+            à la recherche ou à l’enseignement scientifique.
+        </div>
+    </div>
+
+    <!-- Placard -->
+    <div class="photo-container">
+        <h2>Image d’intérieur – Placard</h2>
+        <img src="Moyenne_taille.jpg" alt="Image de placard">
+        <div class="description">
+            Image représentant un placard ou un espace de rangement intérieur,
+            utilisé pour stocker des objets du quotidien dans un environnement domestique.
+        </div>
+    </div>
+
+    <!-- CV -->
+    <div class="photo-container">
+        <h2>Document – Curriculum Vitae</h2>
+        <img src="cv.png" alt="Image du CV">
+        <div class="description">
+            Image représentant un curriculum vitae (CV), présentant le parcours
+            académique, les compétences et les expériences professionnelles d’une personne.
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

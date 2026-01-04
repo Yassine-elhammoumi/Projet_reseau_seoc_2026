@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Épicerie du Coin - Produits Frais et Locaux</title>
+    <style>
+        /* RESET ET STYLES DE BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #2e7d32;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #c8e6c9;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600"><rect width="1200" height="600" fill="%234caf50"/><text x="600" y="300" font-family="Arial" font-size="50" fill="white" text-anchor="middle">Image d\'épicerie</text></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            margin-bottom: 50px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #ff9800;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #f57c00;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2e7d32;
+            font-size: 2.2rem;
+        }
+
+        /* PRODUITS */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .product-img {
+            height: 200px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #757575;
+            font-weight: bold;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-price {
+            color: #2e7d32;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        /* PROMOTIONS */
+        .promotions {
+            background-color: #e8f5e9;
+        }
+
+        .promo-slider {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .promo-slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .promo-slide {
+            min-width: 100%;
+            padding: 40px;
+            background: white;
+            text-align: center;
+        }
+
+        .promo-slide h3 {
+            color: #d32f2f;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #bdbdbd;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .slider-dot.active {
+            background-color: #2e7d32;
+        }
+
+        /* SERVICES */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        /* HORAIRES ET CONTACT */
+        .info-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .info-card h3 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .hours-table td {
+            padding: 10px 0;
+        }
+
+        .hours-table td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-info i {
+            margin-right: 10px;
+            color: #2e7d32;
+            width: 20px;
+        }
+
+        /* NEWSLETTER */
+        .newsletter {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .newsletter h2 {
+            margin-bottom: 20px;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 50px 0 0 50px;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #f57c00;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #1b5e20;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #c8e6c9;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: #c8e6c9;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .logo {
+                margin-bottom: 15px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 15px;
+                right: 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-form input {
+                border-radius: 50px;
+                margin-bottom: 10px;
+            }
+
+            .newsletter-form button {
+                border-radius: 50px;
+                padding: 12px;
+            }
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i>🛒</i>
+                    <span>Épicerie du Coin</span>
+                </div>
+                <button class="mobile-menu-btn">☰</button>
+                <nav>
+                    <ul>
+                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#produits">Produits</a></li>
+                        <li><a href="#promotions">Promotions</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="accueil">
+        <div class="container">
+            <h1 class="fade-in">Bienvenue à l'Épicerie du Coin</h1>
+            <p class="fade-in delay-1">Découvrez nos produits frais, locaux et de qualité. Depuis 1985, nous nous engageons à vous offrir le meilleur pour votre quotidien.</p>
+            <a href="#produits" class="btn fade-in delay-2">Découvrir nos produits</a>
+        </div>
+    </section>
+
+    <!-- PRODUITS -->
+    <section id="produits">
+        <div class="container">
+            <h2 class="section-title">Nos Produits</h2>
+            <div class="products-grid">
+                <div class="product-card fade-in">
+                    <div class="product-img">🥦 Légumes Frais</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Légumes de Saison</h3>
+                        <p class="product-description">Selection de légumes frais cultivés localement.</p>
+                        <div class="product-price">À partir de 2,50€/kg</div>
+                        <button class="btn">Ajouter au panier</button>
+                    </div>
+                </div>
+                <div class="product-card fade-in delay-1">
+                    <div class="product-img">🍎 Fruits Frais</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Fruits de Saison</h3>
+                        <p class="product-description">Fruits mûrs à point, pleins de saveurs.</p>
+                        <div class="product-price">À partir de 3,20€/kg</div>
+                        <button class="btn">Ajouter au panier</button>
+                    </div>
+                </div>
+                <div class="product-card fade-in delay-2">
+                    <div class="product-img">🥛 Produits Laitiers</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Lait & Fromages</h3>
+                        <p class="product-description">Fromages artisanaux et produits laitiers frais.</p>
+                        <div class="product-price">À partir de 1,80€</div>
+                        <button class="btn">Ajouter au panier</button>
+                    </div>
+                </div>
+                <div class="product-card fade-in delay-3">
+                    <div class="product-img">🍞 Boulangerie</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Pain Frais</h3>
+                        <p class="product-description">Pain artisanal cuit quotidiennement.</p>
+                        <div class="product-price">À partir de 1,20€</div>
+                        <button class="btn">Ajouter au panier</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROMOTIONS -->
+    <section class="promotions" id="promotions">
+        <div class="container">
+            <h2 class="section-title">Promotions du Moment</h2>
+            <div class="promo-slider">
+                <div class="promo-slides">
+                    <div class="promo-slide">
+                        <h3>-30% sur les produits bio</h3>
+                        <p>Profitez de -30% sur toute notre gamme de produits biologiques. Offre valable jusqu'au 30 novembre.</p>
+                        <a href="#produits" class="btn">Voir les produits</a>
+                    </div>
+                    <div class="promo-slide">
+                        <h3>2 achetés, 1 offert</h3>
+                        <p>Sur tous les fromages de notre fromagerie. Une occasion en or de découvrir de nouvelles saveurs!</p>
+                        <a href="#produits" class="btn">Profiter de l'offre</a>
+                    </div>
+                    <div class="promo-slide">
+                        <h3>Livraison gratuite</h3>
+                        <p>Pour toute commande supérieure à 50€, la livraison est offerte dans un rayon de 10km.</p>
+                        <a href="#contact" class="btn">En savoir plus</a>
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <div class="slider-dot active"></div>
+                    <div class="slider-dot"></div>
+                    <div class="slider-dot"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+        <div class="container">
+            <h2 class="section-title">Nos Services</h2>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">🚚</div>
+                    <h3>Livraison à Domicile</h3>
+                    <p>Commandez en ligne et recevez vos courses directement chez vous. Service disponible 7j/7.</p>
+                </div>
+                <div class="service-card fade-in delay-1">
+                    <div class="service-icon">📦</div>
+                    <h3>Drive Épicerie</h3>
+                    <p>Commandez en ligne et récupérez vos courses sans sortir de votre voiture.</p>
+                </div>
+                <div class="service-card fade-in delay-2">
+                    <div class="service-icon">🎁</div>
+                    <h3>Paniers Cadeaux</h3>
+                    <p>Surprenez vos proches avec nos paniers cadeaux garnis de produits locaux et de qualité.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HORAIRES ET CONTACT -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Horaires & Contact</h2>
+            <div class="info-container">
+                <div class="info-card fade-in">
+                    <h3>Nos Horaires</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <td>Lundi - Vendredi</td>
+                            <td>8h00 - 20h00</td>
+                        </tr>
+                        <tr>
+                            <td>Samedi</td>
+                            <td>8h00 - 21h00</td>
+                        </tr>
+                        <tr>
+                            <td>Dimanche</td>
+                            <td>9h00 - 13h00</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="info-card fade-in delay-1">
+                    <h3>Nous Contacter</h3>
+                    <div class="contact-info">
+                        <p><i>📍</i> 123 Rue du Commerce, 75000 Paris</p>
+                        <p><i>📞</i> 01 23 45 67 89</p>
+                        <p><i>✉️</i> contact@epicerieducoin.fr</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Abonnez-vous à notre newsletter</h2>
+            <p>Recevez nos offres promotionnelles et actualités directement dans votre boîte mail.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Votre adresse email" required>
+                <button type="submit">S'abonner</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Épicerie du Coin</h3>
+                    <p>Votre épicerie de quartier depuis 1985. Produits frais, locaux et de qualité.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Liens Rapides</h3>
+                    <ul>
+                        <li><a href="#accueil">Accueil</a></li>
+                        <li><a href="#produits">Produits</a></li>
+                        <li><a href="#promotions">Promotions</a></li>
+                        <li><a href="#services">Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Informations</h3>
+                    <ul>
+                        <li><a href="#">Mentions légales</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Conditions générales</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Épicerie du Coin. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('show');
+        });
+
+        // Slider des promotions
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.promo-slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.style.display = 'none');
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentSlide = (n + totalSlides) % totalSlides;
+            
+            slides[currentSlide].style.display = 'block';
+            dots[currentSlide].classList.add('active');
+        }
+
+        // Initialisation du slider
+        showSlide(0);
+
+        // Navigation par points
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Défilement automatique
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+
+        // Animation au défilement
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        fadeElements.forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Formulaire newsletter
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input').value;
+            alert(`Merci de vous être abonné avec l'adresse: ${email}`);
+            this.reset();
+        });
+
+        // Ajout au panier
+        document.querySelectorAll('.product-card .btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const productName = this.closest('.product-card').querySelector('.product-title').textContent;
+                alert(`${productName} a été ajouté à votre panier!`);
+            });
+        });
+    </script>
+</body>
+</html>
