@@ -89,16 +89,16 @@ Segment* segment_describe(const char *filedesc,long lg)
     int offset = 0;
 
     if (sscanf(filedesc, "%3[^-]-%n", size_str, &offset) != 1) {
-        printf("❌ segment_describe Format invalide\n");
+        printf("segment_describe Format invalide\n");
         return NULL;
     }
 
     int nb_blocs = atoi(size_str);
     if (nb_blocs <= 0 ) {
-        printf("❌ Nombre de blocs invalide : %d\n", nb_blocs);
+        printf("Nombre de blocs invalide : %d\n", nb_blocs);
         return NULL;
     }
-    printf("✅ Nombre de blocs détectés : %d\n", nb_blocs);
+    printf("Nombre de blocs détectés : %d\n", nb_blocs);
     const char *ptr = filedesc + offset;
     
     
@@ -107,7 +107,7 @@ Segment* segment_describe(const char *filedesc,long lg)
 
         if (sscanf(ptr,"%15[^-]-%5[^-]-%20[^-]-%20[^-]-%n",ip, port_str, offset_str, length_str, &consumed) != 4)
         {
-            printf("❌ Erreur parsing bloc %d\n", i);
+            printf("Erreur parsing bloc %d\n", i);
             return NULL;
         }
         if (lg<atoi(length_str)){
@@ -234,7 +234,6 @@ websocket socket_connection(const char *ip, int port){
 
 
 
-/****************** */
 void printf_segment(Segment* a){
     printf("IP %s port %d offset %ld length %ld\n",a->IP,a->port,(long)a->offset,(long)a->length);
 }
@@ -284,7 +283,6 @@ websocket connexion_is_client(const char *ip, int port)
 
 
 
-/**************************************** */
 void segv_handler(int sig, siginfo_t *si, void *unused) {
     printf("[ODB] HANDLER\n");
 
@@ -314,7 +312,6 @@ void segv_handler(int sig, siginfo_t *si, void *unused) {
     
     
     printf("adres %p => page adress  %p/ buf adress %p\n",addr,page,(void *)saved_buf);
-    /* Déprotection de la page fautive */
     if (mprotect(page, pagesize, PROT_READ | PROT_WRITE) != 0) {
         printf("failed mprotect\n");
         exit(12);
@@ -353,7 +350,7 @@ void segv_handler(int sig, siginfo_t *si, void *unused) {
 }
 
 void new_file_descripteur(long real_offset,char* file,int len){
-    char size[5];             // 4 chiffres + '\0'
+    char size[5];             
     char ip[16];
     char port_str[6];
     char offset_str[21];
@@ -368,14 +365,13 @@ void new_file_descripteur(long real_offset,char* file,int len){
     int i=0;
     char *resp = file + c ;
     int d=c;
-    int size_t=atoi(size);
-    int new_size=size_t;
+    int blocs_number=atoi(size);
+    int new_size=blocs_number;
 
-    while (i<size_t){
+    while (i<blocs_number){
         m = sscanf(resp,"%15[^-]-%5[^-]-%20[^-]-%20[^-]-%n",ip, port_str, offset_str, length_str, &c);
         printf("resp = %s et off %ld\n", resp,real_offset);
 
-        //printf("length = %d\n", length);
         if (real_offset<atoi(length_str)){
             break;
         }
@@ -421,22 +417,20 @@ void new_file_descripteur(long real_offset,char* file,int len){
 
     int j = 0;
     written = 0;
-    int tl = 0;                    // total length written
-    remaining = len;          // space left in buffer
+    int tl = 0;                    
+    remaining = len;         
     written = snprintf(filedescp + tl, remaining, "%d-", new_size);           
     tl += written;
     remaining -= written;
     
     
     resp = file + d;
-    while (j < size_t) {     // <= remplace size_t par ta vraie variable
+    while (j < blocs_number) {     // <= remplace size_t par ta vraie variable
         m = sscanf(resp, "%15[^-]-%5[^-]-%20[^-]-%20[^-]-%n",
                 ip, port_str, offset_str, length_str, &c);
 
-        if (m < 4) break;          // sécurité
-
+        if (m < 4) break;          
         if (j == i) {
-            // écrire remember
             written = snprintf(filedescp + tl, remaining, "%s", response);
         } else {
             written = snprintf(filedescp + tl, remaining,
@@ -447,7 +441,6 @@ void new_file_descripteur(long real_offset,char* file,int len){
                             atol(length_str));
         }
 
-        // sécurité overflow
         if (written < 0 || written >= remaining) {
             fprintf(stderr, "Buffer overflow detected\n");
             break;
@@ -481,13 +474,13 @@ char *FILE_FACT(char* file_name,long len){
 
     int c = 0;
     if (sscanf(file_name, "%3[^-]-%n", size, &c) != 1) {
-        printf("❌ FILE_FACT  Format invalide\n");
+        printf("FILE_FACT  Format invalide\n");
         return NULL;
     }
 
     int nb_blocs = atoi(size);
     if (nb_blocs <= 0 ) {
-        printf("❌ Nombre de blocs invalide : %d\n", nb_blocs);
+        printf("Nombre de blocs invalide : %d\n", nb_blocs);
         return NULL;
     }    
     char *resp = file_name + c ;
@@ -538,7 +531,6 @@ char *FILE_FACT(char* file_name,long len){
         printf_segment(&segm_lis[j]);
         written = snprintf(response+offset_response, remaining-offset_response,"%s-%d-%ld-%ld-",segm_lis[j].IP,segm_lis[j].port,segm_lis[j].offset,segm_lis[j].length);
         offset_response+=written;
-        //printf("response est %s\n",response);
 
     }
     response[offset_response-1]='\0';
@@ -587,7 +579,6 @@ void buffer_load(){
         printf("new _file descripteur est %s\n",FILE_BUFFER);
         offset_is+=(long)getpagesize();
     }
-    //printf("BUFFER LOCAL %s\n",BUFFER);
     char*response=FILE_FACT(FILE_BUFFER,3*MAXIMUM);
     bzero(FILE_BUFFER,3*MAXIMUM);
     memcpy(FILE_BUFFER,response,3*MAXIMUM);

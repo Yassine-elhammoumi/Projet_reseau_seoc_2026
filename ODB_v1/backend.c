@@ -62,10 +62,7 @@ void send_balencer_webserver(int connfd_webServer)
     else{
         printf("fichier n'existe pas\n");
         char response[10*MAX];
-        int hlen = snprintf(response, sizeof(response),
-            "Content-Length: %ld \r\n"
-            ,
-            0);
+        int hlen = snprintf(response, sizeof(response),"Content-Length: %ld \r\n",0);
         printf("header est %s\n",response);
         write(connfd_webServer, response, strlen(response)); 
     }

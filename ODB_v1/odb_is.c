@@ -27,7 +27,8 @@ static websocket ws_s = NULL;  // structure websocket si nécessaire
 
 
 static char *saved_buf = NULL;     // Buffer original
-static size_t saved_size = 0;      // Taille du buffer
+static size_t saved_size = 0;      // Taille du file descripteur qui est dans buffer
+static size_t saved_all= 0;
 static void *saved_page = NULL;    // Adresse alignée sur la page
 static char* buffer;//buffer pour avoir good mapping
 
@@ -35,7 +36,7 @@ static int lenght=0;
 static int pt=0;
 static int BE_O_fd = 0;
 static int first=1;
-static int backend=0;
+static int appel_handler=0;
 static int slp=1;
 
 
@@ -90,7 +91,7 @@ websocket connexion_backend(const char *ip, int port){
     }
     int opt = 1;
     setsockopt(sock_IS_be, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-    if (connect(sock_IS_be, (SA*)&IS_be_addr, sizeof(IS_be_addr))!= 0) {
+    if (real_connect(sock_IS_be, (SA*)&IS_be_addr, sizeof(IS_be_addr))!= 0) {
         if(slp){
                 slp=0;
                 printf("[ODB] SLEEP est attendre l'ecoute à connection \n");
@@ -139,9 +140,7 @@ void backend_odb_conn(){
     lenght=length_;
     char response[256];
     fprintf(stderr, "[hook read] IP=%s PORT=%d OFFSET=%ld LENGTH=%ld\n", ip, port, offset, length_);
-    backend=1;
     ws_s = connexion_backend((char *) ip, (int) port);  // doit renvoyer websocket avec socket_in valide
-    backend=0;
     snprintf(response, sizeof(response), "%s-%d-%ld-%ld",ip, port, offset, length_);
     if (!ws_s) {
         fprintf(stderr, "connexion_ODB-BACKEND failed\n");
@@ -179,13 +178,8 @@ int connect(int fd, const struct sockaddr *addr, socklen_t addrlen) {
         }
     }
 
-    if (backend!=1){
-            printf("CONNECTE TO NEW BACKEND  avec %d\n",fd);
-            BE_O_fd=fd;
-    }
-    if (backend == 1){
-            printf("[ODB][CONNECT] FOR CONNECTE TO ODB-BACKEND avec %d\n",fd);
-    }
+    BE_O_fd=fd;
+
 
     
     //printf("frontend creer une connexion avec webServer avec id %d\n",BE_O_fd);
@@ -210,11 +204,11 @@ void segv_handler(int sig) {
     printf("\n=== SIGSEGV capturé ===\n");
     //write(STDERR_FILENO, msg, sizeof(msg)-1);
     printf("buffer changer %s\n",saved_buf);
-    int pagesize=getpagesize();
-    mprotect(saved_page, pagesize, PROT_READ | PROT_WRITE);
-    memset(saved_buf, 0, pagesize);
+    mprotect(saved_page, saved_all, PROT_READ | PROT_WRITE);
+    memset(saved_buf, 0, saved_all);
     backend_odb_conn();
     first=0;
+    appel_handler=1;
 }
 
 /**
@@ -273,15 +267,15 @@ ssize_t read(int fd, void *buf, size_t count) {
                 sa.sa_handler = segv_handler;
                 sigaction(SIGSEGV, &sa, NULL);
                 
-                long pagesize = sysconf(_SC_PAGESIZE);
-
+                size_t pagesize = (size_t)sysconf(_SC_PAGESIZE);
+                saved_all=(size_t)(count / pagesize) * pagesize;
                 // Adresse de la page contenant le buffer
                 saved_page = (void *)((uintptr_t)buf & ~(pagesize - 1));
 
                 printf("before mprotect buf %p saved_page %p\n",buf,saved_page);
 
                 // Protection de *la page du buffer*
-                int m = mprotect(saved_page, pagesize, PROT_READ);
+                int m = mprotect(saved_page, saved_all , PROT_READ);
 
                 printf("etat de mprotect est %d\n", m);
 
@@ -342,9 +336,13 @@ ssize_t write(int __fd, const void *__buf, size_t __n) {
             exit(1);
         }
     }
-    long pagesize = sysconf(_SC_PAGESIZE);
-    int m = mprotect((void *)((uintptr_t)__buf & ~(pagesize - 1)), pagesize, PROT_READ | PROT_WRITE);
-    
+    if(appel_handler==1){
+        appel_handler=0;
+        return __n;
+    }
+
+    size_t pagesize = (size_t)sysconf(_SC_PAGESIZE);
+    int m = mprotect((void *)((uintptr_t)__buf & ~(pagesize - 1)), saved_all, PROT_READ | PROT_WRITE);
     int n=original_write(__fd, __buf, __n);
 
     return n;

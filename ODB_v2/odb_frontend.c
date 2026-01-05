@@ -58,7 +58,6 @@ void free_list_segment(void)
 void is_file_descripteur(const char *filedesc)
 {
     printf("EST IL file descripteur  %s ??\n",filedesc);
-    // 🔴 IMPORTANT : libérer l'ancien état
     free_list_segment();
 
 
@@ -72,19 +71,19 @@ void is_file_descripteur(const char *filedesc)
 
     if (sscanf(filedesc, "%3[^-]-%n", size_str, &offset) != 1) {
         index_fe=-1;
-        printf("❌ Format invalide\n");
+        printf(" Format invalide\n");
         return;
     }
 
     int nb_blocs = atoi(size_str);
     if (nb_blocs <= 0 || nb_blocs > NBR_MAX) {
         index_fe=-1;
-        printf("❌ Nombre de blocs invalide : %d\n", nb_blocs);
+        printf(" Nombre de blocs invalide : %d\n", nb_blocs);
         return;
     }
     free_list_segment();   
     nombre_blocs = nb_blocs;
-    printf("✅ Nombre de blocs détectés : %d\n", nb_blocs);
+    printf("Nombre de blocs détectés : %d\n", nb_blocs);
     const char *ptr = filedesc + offset;
     
     for (int i = 0; i < nb_blocs; i++) {
@@ -93,7 +92,7 @@ void is_file_descripteur(const char *filedesc)
         if (sscanf(ptr,"%15[^-]-%5[^-]-%20[^-]-%20[^-]-%n",ip, port_str, offset_str, length_str, &consumed) != 4)
         {
             index_fe=-1;
-            printf("❌ Erreur parsing bloc %d\n", i);
+            printf(" Erreur parsing bloc %d\n", i);
             free_list_segment();   
             return;
         }
@@ -114,7 +113,7 @@ void is_file_descripteur(const char *filedesc)
         ptr += consumed;
     }
 
-    printf("✅ File descriptor valide\n");
+    printf("File descriptor valide\n");
 }
 
 

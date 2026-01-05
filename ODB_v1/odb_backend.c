@@ -295,6 +295,7 @@ ssize_t write(int __fd, const void *__buf, size_t __n) {
         }
         // Création d'une structure identifiant l'objet reçu (offset + length max).
         // Ce header agit comme un "identifiant" du futur fichier.
+
         buf_id=malloc(sizeof(*buf_id));
         if(!buf_id){
             perror("Erreur d'allocation");
@@ -313,7 +314,7 @@ ssize_t write(int __fd, const void *__buf, size_t __n) {
 
         // Si l'espace restant dans le buffer est insuffisant → réinitialisation.
         if (offset > BUFFER_SIZE -  (long) content_length ) {
-            printf("[ODB ⚠️] Reset offset car dépassement (offset=%ld)\n", offset);
+            printf("[ODB ] Reset offset car dépassement (offset=%ld)\n", offset);
             offset = 0;
         }
 
@@ -365,7 +366,7 @@ ssize_t write(int __fd, const void *__buf, size_t __n) {
         }
 
         // --------------------------
-        // 🟦 Processus PARENT (pi > 0)
+        //  Processus PARENT (pi > 0)
         // --------------------------
         // Le parent envoie uniquement une courte réponse contenant :
         // IP - PORT - OFFSET - LENGTH
@@ -379,7 +380,7 @@ ssize_t write(int __fd, const void *__buf, size_t __n) {
         }
 
         // --------------------------
-        // 🟩 Processus ENFANT (pi == 0)
+        //  Processus ENFANT (pi == 0)
         // --------------------------
         // Le rôle du processus enfant :
         // 1) se connecter à ODB_Frontend

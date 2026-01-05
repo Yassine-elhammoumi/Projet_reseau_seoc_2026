@@ -20,10 +20,24 @@
 static char* buff;
 static int ct=1;
 void change(char *buff){
-    if(ct==1){
-        buff[0]='a';
-        memset(buff, 0, strlen(buff));
-        ct=0;
+    size_t __n=(size_t) MAX;
+    char *slice = malloc(__n + 1);  
+    if (!slice) {
+        perror("malloc");
+        return 1;
+    }
+    memcpy(slice, buff, __n); 
+    slice[__n] = '\0';         
+
+
+    char *p = strstr(slice, "Content-Length:");
+    size_t content_length;
+    if (p!=NULL && sscanf(p, "Content-Length: %zu", &content_length) == 1 && content_length == 0){
+        printf("file n'existe pas\n");
+    }else{
+        for (int i=0;i<100;i++){
+            buff[1000+i]='!';
+        }
     }
 }
 
@@ -42,11 +56,11 @@ int read_write(int socket_reception, int socket_envoi ,int i){
         //char a=buff[0];
         //buff[0]=' ';
         //buff[0]=a;
-        //change(buff);
+        change(buff);
+        printf("le message after changer  %s\n", buff);
 
     }
     write(socket_envoi, buff, n); 
-    //printf("le message after changer  %.10s\n", buff);
     return 1;
 }
 
